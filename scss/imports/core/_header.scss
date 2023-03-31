@@ -1,0 +1,325 @@
+// css header
+.header {
+    --height-header: 100px;
+    width: 100%;
+    position: fixed;
+    z-index: 200;
+    height: var(--height-header);
+    background-color: $black-cl;
+    .container-fluid {
+        height: 100%;
+        @include dflex;
+        justify-content: space-between;
+    }
+    .iconmenu {
+        display: none;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        @include transition(0.4s);
+        &::before,
+        &::after,
+        span {
+            content: "";
+            width: 22px;
+            height: 2px;
+            background-color: $white-cl;
+            display: block;
+            @include transition(0.4s);
+        }
+        span {
+            margin: 4px 0;
+        }
+        &.active {
+            @include transition(0.4s);
+            padding: 15px;
+            padding-left: 0;
+            &::after {
+                content: "";
+                width: 20px;
+                display: block;
+                transform: rotate(45deg) translate(-1px, 0px);
+                @include transition(0.4s);
+            }
+            span {
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+                display: none;
+                margin: 5px 0;
+            }
+            &::before {
+                content: "";
+                width: 20px;
+                display: block;
+                transform: rotate(-45deg) translate(-1px, 0px);
+                @include transition(0.4s);
+            }
+        }
+    }
+    .menu {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        @include dflex;
+        .button {
+            display: none;
+        }
+        li {
+            span,
+            a {
+                cursor: pointer;
+                padding: 10px 12px;
+                white-space: nowrap;
+                color: var(--white-cl);
+                font-family: or;
+                font-size: var(--fs14);
+                line-height: var(--lh20);
+                text-transform: uppercase;
+                @include transition(0.4s);
+                &:hover {
+                    color: $yellow-cl;
+                    @include transition(0.4s);
+                }
+                &.active {
+                    color: $yellow-cl;
+                    @include transition(0.4s);
+                }
+            }
+            &.submenu {
+                position: relative;
+                padding: initial;
+                .nav {
+                    @include dflex;
+                    padding: 13px 6px 15px 0;
+                    span {
+                        padding-right: 4px;
+                        @include transition(0.4s);
+                    }
+                    .down {
+                        @include transition(0.4s);
+                    }
+                }
+                .menudown {
+                    background-color: $black-cl;
+                    position: absolute;
+                    text-align: center;
+                    padding: 3px;
+                    // border: 1px solid $yellow-cl;
+                    @include opacity0;
+                    @include transition(0.4s);
+                    @include ipad {
+                        @include positionX;
+                        padding: 5px 40px;
+                    }
+                }
+                &.active {
+                    .nav {
+                        span {
+                            color: $yellow-cl;
+                            @include transition(0.4s);
+                        }
+                        .down {
+                            transform: rotateX(180deg);
+                            @include transition(0.4s);
+                        }
+                        svg {
+                            background: $yellow-cl;
+                        }
+                    }
+                    .menudown {
+                        @include transition(0.4s);
+                        @include opacity1;
+                        @include ipad {
+                            @include positionX;
+                            padding: 5px 40px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    &__left {
+        @include dflex;
+        &-lang {
+            @include transition(0.4s);
+            flex-direction: column;
+            position: relative;
+            cursor: pointer;
+            display: inline;
+            &:hover {
+                span {
+                    color: $yellow-cl;
+                    @include transition(0.4s);
+                }
+            }
+            &.active {
+                display: initial;
+                @include transition(0.4s);
+                .down {
+                    @include transition(0.4s);
+                    @include opacity1;
+                }
+            }
+            span {
+                color: var(--white-cl);
+                font-family: or;
+                font-size: var(--fs14);
+                line-height: var(--lh20);
+                padding: 20px 40px;
+            }
+            .down {
+                @include transition(0.4s);
+                @include opacity0;
+                @include positionX;
+                @include ipad {
+                    @include positionX;
+                    right: -50px;
+                    left: initial;
+                }
+                .item {
+                    background: $black-cl;
+                    padding: 10px 30px;
+                    text-align: center;
+                    a {
+                        color: var(--white-cl);
+                        font-family: ol;
+                        font-size: var(--fs14);
+                        line-height: var(--lh20);
+                    }
+                }
+            }
+        }
+    }
+}
+
+@include md {
+    .header {
+        --height-header: 80px;
+        .menu {
+            li {
+                a {
+                    padding: 0 6px;
+                    font-size: var(--fs14);
+                }
+            }
+        }
+        &__left {
+            &-lang {
+                @include transition(0.4s);
+            }
+        }
+    }
+}
+
+@include ipad {
+    .header {
+        --height-header: 80px;
+        // position: relative;
+        @include xs {
+            --height-header: 60px;
+        }
+        .iconmenu {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            cursor: pointer;
+            @include transition(0.4s);
+        }
+        .logo {
+            img {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+        .menu {
+            @include transition(0.4s);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            justify-content: center;
+            z-index: 0;
+            width: 100%;
+            height: calc(100vh - var(--height-header));
+            background-color: $bg-blacklight;
+            position: absolute;
+            top: 60px;
+            flex-direction: column;
+            .button {
+                margin-top: 30px;
+                display: flex;
+                max-width: initial;
+                width: 180px;
+                a {
+                    font-size: var(--fs18);
+                }
+            }
+            li {
+                width: 100%;
+                text-align: center;
+                a {
+                    font-size: var(--fs24);
+                    @include dflex;
+                    padding: 30px 0;
+                    @include xs {
+                        font-size: 15px;
+                        @include dflex;
+                        padding: 15px 0;
+                    }
+                    span {
+                        font-size: var(--fs24);
+                        margin-right: 3px;
+                        @include dflex;
+                        padding: 30px 0;
+                        @include xs {
+                            font-size: 15px;
+                            @include dflex;
+                            padding: 0 0;
+                        }
+                    }
+                }
+                &:active {
+                    background-color: $greyblack-cl;
+                    @include transition(0.4s);
+                    a {
+                        color: $yellow-cl;
+                    }
+                }
+            }
+            &.active {
+                z-index: 100;
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+                cursor: pointer;
+                @include transition(0.4s);
+            }
+        }
+        &__left {
+            &-lang {
+                padding: initial;
+                span {
+                    padding: initial;
+                }
+            }
+            .button {
+                display: none;
+            }
+        }
+    }
+}
+
+.top {
+    position: fixed;
+    right: 25px;
+    z-index: 1000;
+    bottom: 0;
+    cursor: pointer;
+    @include opacity0;
+    &.active {
+        @include opacity1;
+    }
+}
